@@ -1,9 +1,10 @@
+using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
-using System.Xml;
-using System.Xml.Linq;
+using GraphVisualisation.Algorithms;
 
 namespace GraphVisualisation
 {
@@ -22,7 +23,6 @@ namespace GraphVisualisation
 		readonly Point nodeSize;
 
 		EdgeEditBox edgeEditBoxForm;
-
 
 		// Конструктор формы
 		public GraphVisul(EdgeEditBox edgeEditBox)
@@ -262,7 +262,7 @@ namespace GraphVisualisation
 				var g = e.Graphics;
 				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-				var pen = new Pen(Color.Black, 3);
+				var pen = new Pen(Color.Black, 2);
 
 				foreach (var v1 in graph)
 				{
@@ -278,11 +278,11 @@ namespace GraphVisualisation
 						{
 							pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(
 								startPoint, endPoint, Color.MediumVioletRed, Color.GhostWhite))
-							{ Width = 3 };
+							{ Width = 2 };
 						}
 
 						g.DrawLine(pen, startPoint, endPoint);
-						g.DrawString(graph[v1.Key][v2.Key].ToString(), new Font("Arial", 12), Brushes.Black,
+						g.DrawString("[" + graph[v1.Key][v2.Key].ToString() + "]", new Font("Arial", 12), Brushes.DarkRed,
 							new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
 					}
 				}
@@ -298,6 +298,24 @@ namespace GraphVisualisation
 			addEdge = true;
 
 			infoBox.Text = "Укажите первую вершину";
+		}
+
+
+
+		private void BFSBtn_Click(object sender, EventArgs e)
+		{
+			BFS.form = this;
+			BFS.graph = graph;
+			//BFS.pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(new Point(0, 0), 
+			//	new Point(10, 10), Color.MediumVioletRed, Color.GhostWhite)) { Width = 3 };
+			BFS.pen = new Pen(Color.MediumVioletRed, 3);
+			var g = this.graphSpace.CreateGraphics();
+			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			BFS.g = g;
+			BFS.nodes = nodes;
+			BFS.nodeSize = nodeSize;
+
+			BFS.StartBFS("1");
 		}
 	}
 }

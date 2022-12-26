@@ -22,6 +22,9 @@
 		private void InitializeComponent()
 		{
 			this.graphSpace = new System.Windows.Forms.Panel();
+			this.AlgorithmsBtn = new System.Windows.Forms.MenuStrip();
+			this.алгоритыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.BFSBtn = new System.Windows.Forms.ToolStripMenuItem();
 			this.isWeighedCheckBox = new System.Windows.Forms.CheckBox();
 			this.isDirectedCheckBox = new System.Windows.Forms.CheckBox();
 			this.addNodeBtn = new System.Windows.Forms.Button();
@@ -29,20 +32,49 @@
 			this.deleteNodeBtn = new System.Windows.Forms.Button();
 			this.addEdgeBtn = new System.Windows.Forms.Button();
 			this.infoBox = new System.Windows.Forms.TextBox();
+			this.graphSpace.SuspendLayout();
+			this.AlgorithmsBtn.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// graphSpace
 			// 
 			this.graphSpace.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.graphSpace.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+			this.graphSpace.Controls.Add(this.AlgorithmsBtn);
 			this.graphSpace.Cursor = System.Windows.Forms.Cursors.Cross;
 			this.graphSpace.ImeMode = System.Windows.Forms.ImeMode.On;
-			this.graphSpace.Location = new System.Drawing.Point(-2, 58);
+			this.graphSpace.Location = new System.Drawing.Point(-2, 82);
 			this.graphSpace.Name = "graphSpace";
-			this.graphSpace.Size = new System.Drawing.Size(856, 393);
+			this.graphSpace.Size = new System.Drawing.Size(754, 369);
 			this.graphSpace.TabIndex = 0;
 			this.graphSpace.Paint += new System.Windows.Forms.PaintEventHandler(this.graphSpace_Paint);
 			this.graphSpace.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphSpace_MouseClick);
+			// 
+			// AlgorithmsBtn
+			// 
+			this.AlgorithmsBtn.Dock = System.Windows.Forms.DockStyle.None;
+			this.AlgorithmsBtn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.алгоритыToolStripMenuItem});
+			this.AlgorithmsBtn.Location = new System.Drawing.Point(-6, -2);
+			this.AlgorithmsBtn.Name = "AlgorithmsBtn";
+			this.AlgorithmsBtn.Size = new System.Drawing.Size(202, 24);
+			this.AlgorithmsBtn.Stretch = false;
+			this.AlgorithmsBtn.TabIndex = 8;
+			// 
+			// алгоритыToolStripMenuItem
+			// 
+			this.алгоритыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.BFSBtn});
+			this.алгоритыToolStripMenuItem.Name = "алгоритыToolStripMenuItem";
+			this.алгоритыToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+			this.алгоритыToolStripMenuItem.Text = "Алгориты";
+			// 
+			// BFSBtn
+			// 
+			this.BFSBtn.Name = "BFSBtn";
+			this.BFSBtn.Size = new System.Drawing.Size(180, 22);
+			this.BFSBtn.Text = "Поиск в ширину";
+			this.BFSBtn.Click += new System.EventHandler(this.BFSBtn_Click);
 			// 
 			// isWeighedCheckBox
 			// 
@@ -85,7 +117,7 @@
 			this.newGraphBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.newGraphBtn.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.newGraphBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.newGraphBtn.Location = new System.Drawing.Point(762, 8);
+			this.newGraphBtn.Location = new System.Drawing.Point(662, 8);
 			this.newGraphBtn.Name = "newGraphBtn";
 			this.newGraphBtn.Size = new System.Drawing.Size(75, 44);
 			this.newGraphBtn.TabIndex = 4;
@@ -124,18 +156,19 @@
 			this.infoBox.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.infoBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.infoBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.infoBox.ForeColor = System.Drawing.Color.DarkRed;
-			this.infoBox.Location = new System.Drawing.Point(556, 23);
+			this.infoBox.ForeColor = System.Drawing.SystemColors.ControlText;
+			this.infoBox.Location = new System.Drawing.Point(-2, 58);
 			this.infoBox.Name = "infoBox";
-			this.infoBox.Size = new System.Drawing.Size(200, 18);
+			this.infoBox.Size = new System.Drawing.Size(754, 18);
 			this.infoBox.TabIndex = 7;
+			this.infoBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
 			// GraphVisul
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-			this.ClientSize = new System.Drawing.Size(849, 450);
+			this.ClientSize = new System.Drawing.Size(749, 450);
 			this.Controls.Add(this.infoBox);
 			this.Controls.Add(this.addEdgeBtn);
 			this.Controls.Add(this.deleteNodeBtn);
@@ -144,10 +177,15 @@
 			this.Controls.Add(this.isDirectedCheckBox);
 			this.Controls.Add(this.isWeighedCheckBox);
 			this.Controls.Add(this.graphSpace);
-			this.MinimumSize = new System.Drawing.Size(865, 100);
+			this.MainMenuStrip = this.AlgorithmsBtn;
+			this.MinimumSize = new System.Drawing.Size(765, 100);
 			this.Name = "GraphVisul";
 			this.Text = "GraphVisul";
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+			this.graphSpace.ResumeLayout(false);
+			this.graphSpace.PerformLayout();
+			this.AlgorithmsBtn.ResumeLayout(false);
+			this.AlgorithmsBtn.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -163,5 +201,8 @@
 		private Button deleteNodeBtn;
 		private Button addEdgeBtn;
 		private TextBox infoBox;
+		private MenuStrip AlgorithmsBtn;
+		private ToolStripMenuItem алгоритыToolStripMenuItem;
+		private ToolStripMenuItem BFSBtn;
 	}
 }
