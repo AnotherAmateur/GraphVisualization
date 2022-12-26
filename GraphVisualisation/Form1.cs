@@ -1,6 +1,7 @@
 using System.Drawing.Drawing2D;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -33,7 +34,7 @@ namespace GraphVisualisation
 
 			nodeSize = new(35, 35);
 			edgeEditBoxForm = edgeEditBox;
-			edgeEditBoxForm.Location = new Point(this.Location.X + (int)this.Width / 2, this.Location.Y + (int)this.Height / 2);
+			edgeEditBoxForm.StartPosition = FormStartPosition.Manual;
 
 			typeof(Panel).InvokeMember("DoubleBuffered",
 			BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
@@ -114,6 +115,8 @@ namespace GraphVisualisation
 					edgeEditBoxForm.Weight = weight;
 					edgeEditBoxForm.InfoBox = "Укажите вес";
 
+
+					edgeEditBoxForm.Location = new Point(this.Location.X + (int)(this.Width / 2 - edgeEditBoxForm.Width / 2), this.Location.Y + (int)(this.Height / 2 - edgeEditBoxForm.Height / 2));
 					edgeEditBoxForm.ShowDialog();
 
 					weight = edgeEditBoxForm.Weight;
