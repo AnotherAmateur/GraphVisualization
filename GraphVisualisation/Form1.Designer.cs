@@ -39,7 +39,7 @@
 			this.graphSpace.ImeMode = System.Windows.Forms.ImeMode.On;
 			this.graphSpace.Location = new System.Drawing.Point(-2, 58);
 			this.graphSpace.Name = "graphSpace";
-			this.graphSpace.Size = new System.Drawing.Size(805, 393);
+			this.graphSpace.Size = new System.Drawing.Size(856, 393);
 			this.graphSpace.TabIndex = 0;
 			this.graphSpace.Paint += new System.Windows.Forms.PaintEventHandler(this.graphSpace_Paint);
 			this.graphSpace.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphSpace_MouseClick);
@@ -72,19 +72,20 @@
 			this.addNodeBtn.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.addNodeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.addNodeBtn.ForeColor = System.Drawing.Color.Black;
-			this.addNodeBtn.Location = new System.Drawing.Point(183, 8);
+			this.addNodeBtn.Location = new System.Drawing.Point(193, 8);
 			this.addNodeBtn.Name = "addNodeBtn";
-			this.addNodeBtn.Size = new System.Drawing.Size(75, 44);
+			this.addNodeBtn.Size = new System.Drawing.Size(146, 44);
 			this.addNodeBtn.TabIndex = 3;
-			this.addNodeBtn.Text = "Добавить вершины";
+			this.addNodeBtn.Text = "Добавить/переместить вершины";
 			this.addNodeBtn.UseVisualStyleBackColor = false;
 			this.addNodeBtn.Click += new System.EventHandler(this.addNodeBtn_Click);
 			// 
 			// newGraphBtn
 			// 
+			this.newGraphBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.newGraphBtn.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.newGraphBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.newGraphBtn.Location = new System.Drawing.Point(713, 8);
+			this.newGraphBtn.Location = new System.Drawing.Point(762, 8);
 			this.newGraphBtn.Name = "newGraphBtn";
 			this.newGraphBtn.Size = new System.Drawing.Size(75, 44);
 			this.newGraphBtn.TabIndex = 4;
@@ -97,7 +98,7 @@
 			this.deleteNodeBtn.AutoEllipsis = true;
 			this.deleteNodeBtn.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDarkDark;
 			this.deleteNodeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.deleteNodeBtn.Location = new System.Drawing.Point(264, 8);
+			this.deleteNodeBtn.Location = new System.Drawing.Point(449, 8);
 			this.deleteNodeBtn.Name = "deleteNodeBtn";
 			this.deleteNodeBtn.Size = new System.Drawing.Size(75, 44);
 			this.deleteNodeBtn.TabIndex = 5;
@@ -111,19 +112,20 @@
 			this.addEdgeBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.addEdgeBtn.Location = new System.Drawing.Point(345, 8);
 			this.addEdgeBtn.Name = "addEdgeBtn";
-			this.addEdgeBtn.Size = new System.Drawing.Size(75, 44);
+			this.addEdgeBtn.Size = new System.Drawing.Size(98, 44);
 			this.addEdgeBtn.TabIndex = 6;
-			this.addEdgeBtn.Text = "Добавить связь";
+			this.addEdgeBtn.Text = "Редактировать связи";
 			this.addEdgeBtn.UseVisualStyleBackColor = true;
 			this.addEdgeBtn.Click += new System.EventHandler(this.addEdgeBtn_Click);
 			// 
 			// infoBox
 			// 
+			this.infoBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.infoBox.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.infoBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.infoBox.Location = new System.Drawing.Point(449, 20);
+			this.infoBox.Location = new System.Drawing.Point(556, 23);
 			this.infoBox.Name = "infoBox";
-			this.infoBox.Size = new System.Drawing.Size(233, 16);
+			this.infoBox.Size = new System.Drawing.Size(200, 16);
 			this.infoBox.TabIndex = 7;
 			// 
 			// GraphVisul
@@ -131,7 +133,7 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.AppWorkspace;
-			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.ClientSize = new System.Drawing.Size(849, 450);
 			this.Controls.Add(this.infoBox);
 			this.Controls.Add(this.addEdgeBtn);
 			this.Controls.Add(this.deleteNodeBtn);
@@ -140,6 +142,7 @@
 			this.Controls.Add(this.isDirectedCheckBox);
 			this.Controls.Add(this.isWeighedCheckBox);
 			this.Controls.Add(this.graphSpace);
+			this.MinimumSize = new System.Drawing.Size(865, 100);
 			this.Name = "GraphVisul";
 			this.Text = "GraphVisul";
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);

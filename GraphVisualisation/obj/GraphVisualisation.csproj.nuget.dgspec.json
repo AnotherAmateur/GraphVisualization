@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Uni\\5 semester\\GraphVisual\\GraphVisualisation\\GraphVisualisation\\GraphVisualisation.csproj": {}
+    "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\GraphVisualisation\\GraphVisualisation.csproj": {}
   },
   "projects": {
-    "D:\\Uni\\5 semester\\GraphVisual\\GraphVisualisation\\GraphVisualisation\\GraphVisualisation.csproj": {
+    "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\GraphVisualisation\\GraphVisualisation.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Uni\\5 semester\\GraphVisual\\GraphVisualisation\\GraphVisualisation\\GraphVisualisation.csproj",
+        "projectUniqueName": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\GraphVisualisation\\GraphVisualisation.csproj",
         "projectName": "GraphVisualisation",
-        "projectPath": "D:\\Uni\\5 semester\\GraphVisual\\GraphVisualisation\\GraphVisualisation\\GraphVisualisation.csproj",
+        "projectPath": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\GraphVisualisation\\GraphVisualisation.csproj",
         "packagesPath": "C:\\Users\\dmitr\\.nuget\\packages\\",
-        "outputPath": "D:\\Uni\\5 semester\\GraphVisual\\GraphVisualisation\\GraphVisualisation\\obj\\",
+        "outputPath": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\GraphVisualisation\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dmitr\\AppData\\Roaming\\NuGet\\NuGet.Config",

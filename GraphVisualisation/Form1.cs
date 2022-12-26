@@ -17,17 +17,23 @@ namespace GraphVisualisation
 		bool removeNode;
 		bool isNewGraph;
 		bool addEdge;
-		string edgeToAdd;
+		string? edgeToAddFirst;
 		readonly Point nodeSize;
+
+		EdgeEditBox edgeEditBoxForm;
 
 
 		// Конструктор формы
-		public GraphVisul()
+		public GraphVisul(EdgeEditBox edgeEditBox)
 		{
-			graph = new(false);
 			nodes = new();
+			isNewGraph = true;
+
 			InitializeComponent();
+
 			nodeSize = new(35, 35);
+			edgeEditBoxForm = edgeEditBox;
+			edgeEditBoxForm.Location = new Point(this.Location.X + (int)this.Width / 2, this.Location.Y + (int)this.Height / 2);
 
 			typeof(Panel).InvokeMember("DoubleBuffered",
 			BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
@@ -80,6 +86,7 @@ namespace GraphVisualisation
 		// Обработка нажатия левый клик по вершине
 		private void node_MouseClick(object? sender, EventArgs e)
 		{
+			// удаление вершины
 			if (removeNode)
 			{
 				Button buttonToRemove = nodes.Find(x => x == sender);
@@ -90,18 +97,38 @@ namespace GraphVisualisation
 
 				graphSpace.Refresh();
 			}
+			// редактирование ребер/дуг
 			else if (addEdge)
 			{
-				if (edgeToAdd == null)
+				if (edgeToAddFirst == null)
 				{
-					edgeToAdd = ((Button)sender).Name;
+					edgeToAddFirst = ((Button)sender).Name;
 					infoBox.Text = "Теперь укажите вторую вершину";
 				}
 				else
 				{
-					graph.AddOrUpdateEdge(edgeToAdd, ((Button)sender).Name, 1);
+					string edgeToAddSecond = ((Button)sender).Name;
+
+					int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond))? graph[edgeToAddFirst][edgeToAddSecond] : 0;
+
+					edgeEditBoxForm.Weight = weight;
+					edgeEditBoxForm.InfoBox = "Укажите вес";
+
+					edgeEditBoxForm.ShowDialog();
+
+					weight = edgeEditBoxForm.Weight;
+
+					if (edgeEditBoxForm.EdgeAdded)
+					{
+						graph.AddOrUpdateEdge(edgeToAddFirst, edgeToAddSecond, weight);
+					}
+					else
+					{
+						graph.DeleteEdge(edgeToAddFirst, edgeToAddSecond);
+					}
+					
 					graphSpace.Refresh();
-					edgeToAdd = null;
+					edgeToAddFirst = null;
 					infoBox.Text = "Укажите первую вершину";
 				}
 			}
@@ -153,11 +180,11 @@ namespace GraphVisualisation
 		{
 			addNode = true;
 			removeNode = false;
+			addEdge = false;
 			isDirectedCheckBox.Enabled = false;
 			isWeighedCheckBox.Enabled = false;
 
-			addEdge = false;
-			edgeToAdd = null;
+			edgeToAddFirst = null;
 			infoBox.Text = null;
 		}
 
@@ -185,8 +212,8 @@ namespace GraphVisualisation
 		// Обработка нажатия на кнопку "Новый граф"
 		private void newGraphBtn_Click(object sender, EventArgs e)
 		{
-			isDirected = false;
 			isWeighed = false;
+			isDirected = false;
 			isDirectedCheckBox.Enabled = true;
 			isWeighedCheckBox.Enabled = true;
 			isDirectedCheckBox.Checked = false;
@@ -197,7 +224,7 @@ namespace GraphVisualisation
 			addNode = false;
 			removeNode = false;
 			addEdge = false;
-			edgeToAdd = null;
+			edgeToAddFirst = null;
 			infoBox.Text = null;
 
 			foreach (var item in nodes)
@@ -216,7 +243,7 @@ namespace GraphVisualisation
 			removeNode = true;
 			addNode = false;
 			addEdge = false;
-			edgeToAdd = null;
+			edgeToAddFirst = null;
 			infoBox.Text = null;
 		}
 

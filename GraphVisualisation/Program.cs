@@ -6,7 +6,7 @@ namespace GraphVisualisation
 		static void Main()
 		{
 			ApplicationConfiguration.Initialize();
-			Application.Run(new GraphVisul());
+			Application.Run(new GraphVisul(new EdgeEditBox()));
 		}
 	}
 }
