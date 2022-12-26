@@ -123,9 +123,11 @@
 			this.infoBox.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.infoBox.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.infoBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.infoBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.infoBox.ForeColor = System.Drawing.Color.DarkRed;
 			this.infoBox.Location = new System.Drawing.Point(556, 23);
 			this.infoBox.Name = "infoBox";
-			this.infoBox.Size = new System.Drawing.Size(200, 16);
+			this.infoBox.Size = new System.Drawing.Size(200, 18);
 			this.infoBox.TabIndex = 7;
 			// 
 			// GraphVisul

@@ -11,7 +11,7 @@ namespace GraphVisualisation
 	{
 		int nodeCount;
 		private List<Button> nodes;
-		MyGraph.Graph graph;
+		MyGraph.Graph? graph;
 		bool isDirected;
 		bool isWeighed;
 		bool addNode;
@@ -110,7 +110,7 @@ namespace GraphVisualisation
 				{
 					string edgeToAddSecond = ((Button)sender).Name;
 
-					int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond))? graph[edgeToAddFirst][edgeToAddSecond] : 0;
+					int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond)) ? graph[edgeToAddFirst][edgeToAddSecond] : 0;
 
 					edgeEditBoxForm.Weight = weight;
 					edgeEditBoxForm.InfoBox = "”кажите вес";
@@ -129,7 +129,7 @@ namespace GraphVisualisation
 					{
 						graph.DeleteEdge(edgeToAddFirst, edgeToAddSecond);
 					}
-					
+
 					graphSpace.Refresh();
 					edgeToAddFirst = null;
 					infoBox.Text = "”кажите первую вершину";
@@ -276,10 +276,14 @@ namespace GraphVisualisation
 
 						if (isDirected)
 						{
-							pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(startPoint, endPoint, Color.MediumVioletRed, Color.GhostWhite)) { Width = 3 };
+							pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(
+								startPoint, endPoint, Color.MediumVioletRed, Color.GhostWhite))
+							{ Width = 3 };
 						}
 
 						g.DrawLine(pen, startPoint, endPoint);
+						g.DrawString(graph[v1.Key][v2.Key].ToString(), new Font("Arial", 12), Brushes.Black,
+							new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
 					}
 				}
 			}
