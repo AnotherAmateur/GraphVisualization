@@ -25,6 +25,7 @@
 			this.AlgorithmsBtn = new System.Windows.Forms.MenuStrip();
 			this.алгоритыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.BFSBtn = new System.Windows.Forms.ToolStripMenuItem();
+			this.MaxFlowBTn = new System.Windows.Forms.ToolStripMenuItem();
 			this.isWeighedCheckBox = new System.Windows.Forms.CheckBox();
 			this.isDirectedCheckBox = new System.Windows.Forms.CheckBox();
 			this.addNodeBtn = new System.Windows.Forms.Button();
@@ -64,7 +65,8 @@
 			// алгоритыToolStripMenuItem
 			// 
 			this.алгоритыToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.BFSBtn});
+            this.BFSBtn,
+            this.MaxFlowBTn});
 			this.алгоритыToolStripMenuItem.Name = "алгоритыToolStripMenuItem";
 			this.алгоритыToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
 			this.алгоритыToolStripMenuItem.Text = "Алгориты";
@@ -72,9 +74,16 @@
 			// BFSBtn
 			// 
 			this.BFSBtn.Name = "BFSBtn";
-			this.BFSBtn.Size = new System.Drawing.Size(180, 22);
+			this.BFSBtn.Size = new System.Drawing.Size(196, 22);
 			this.BFSBtn.Text = "Поиск в ширину";
 			this.BFSBtn.Click += new System.EventHandler(this.BFSBtn_Click);
+			// 
+			// MaxFlowBTn
+			// 
+			this.MaxFlowBTn.Name = "MaxFlowBTn";
+			this.MaxFlowBTn.Size = new System.Drawing.Size(196, 22);
+			this.MaxFlowBTn.Text = "Максимальный поток";
+			this.MaxFlowBTn.Click += new System.EventHandler(this.MaxFlowBtn_Cllck);
 			// 
 			// isWeighedCheckBox
 			// 
@@ -204,5 +213,6 @@
 		private MenuStrip AlgorithmsBtn;
 		private ToolStripMenuItem алгоритыToolStripMenuItem;
 		private ToolStripMenuItem BFSBtn;
+		private ToolStripMenuItem MaxFlowBTn;
 	}
 }

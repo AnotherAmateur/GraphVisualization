@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using GraphVisualisation.Algorithms;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace GraphVisualisation
 {
@@ -21,8 +20,18 @@ namespace GraphVisualisation
 		bool isNewGraph;
 		bool addEdgeSelected;
 		bool BFSSelected;
+		bool DrawEdges;
 		string? edgeToAddFirst;
 		readonly Point nodeSize;
+		public string InfoBox
+		{
+			get { return infoBox.Text; }
+			set { infoBox.Text = value; }
+		}
+		public bool IsWeighed
+		{
+			get { return isWeighed; }
+		}
 
 		EdgeEditBox edgeEditBoxForm;
 
@@ -31,6 +40,7 @@ namespace GraphVisualisation
 		{
 			nodes = new();
 			isNewGraph = true;
+			DrawEdges = true;
 
 			InitializeComponent();
 
@@ -80,7 +90,7 @@ namespace GraphVisualisation
 				}
 			}
 		}
-		
+
 
 		// Обработка нажатия левый клик по вершине
 		private async void node_MouseClick(object? sender, EventArgs e)
@@ -102,7 +112,7 @@ namespace GraphVisualisation
 				if (edgeToAddFirst == null)
 				{
 					edgeToAddFirst = ((Button)sender).Name;
-					infoBox.Text = "Теперь укажите вторую вершину";
+					InfoBox = "Теперь укажите вторую вершину";
 				}
 				else
 				{
@@ -133,13 +143,13 @@ namespace GraphVisualisation
 
 					graphSpace.Refresh();
 					edgeToAddFirst = null;
-					infoBox.Text = "Укажите первую вершину";
+					InfoBox = "Укажите первую вершину";
 				}
 			}
 			// Визуализация обхода в ширину
 			else if (BFSSelected)
 			{
-				infoBox.Text = "Выполняется...";
+				InfoBox = "Выполняется...";
 				Refresh();
 
 				Graphics g = this.graphSpace.CreateGraphics();
@@ -156,7 +166,7 @@ namespace GraphVisualisation
 
 				var tmp = new List<string>() { vertex };
 				tmp.AddRange(result);
-				infoBox.Text = $"Порядок обхода: {string.Join(", ", tmp)}"; ;
+				InfoBox = $"Порядок обхода: {string.Join(", ", tmp)}"; ;
 			}
 		}
 
@@ -210,7 +220,7 @@ namespace GraphVisualisation
 			isWeighedCheckBox.Enabled = false;
 
 			edgeToAddFirst = null;
-			infoBox.Text = null;
+			InfoBox = null;
 		}
 
 
@@ -247,16 +257,16 @@ namespace GraphVisualisation
 
 			isNewGraph = true;
 
-			AdjustPanel(null);
-
-			edgeToAddFirst = null;
-			infoBox.Text = null;
-
 			foreach (var item in nodes)
 			{
 				graphSpace.Controls.Remove(item);
 			}
 			nodes.Clear();
+
+			edgeToAddFirst = null;
+			InfoBox = null;
+
+			AdjustPanel(null);
 		}
 
 
@@ -266,20 +276,20 @@ namespace GraphVisualisation
 			AdjustPanel((Button)sender);
 
 			edgeToAddFirst = null;
-			infoBox.Text = null;
+			InfoBox = null;
 		}
 
 
 		// Отрисовка связей между вершинами
 		private void graphSpace_Paint(object sender, PaintEventArgs e)
 		{
-			if (nodes.Count > 1)
+			if (DrawEdges && nodes.Count > 1)
 			{
 				int t1 = nodeSize.X / 2;
 				int t2 = nodeSize.Y / 2;
 
 				var g = e.Graphics;
-				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
 
 				var pen = new Pen(Color.Black, 2);
 
@@ -318,7 +328,7 @@ namespace GraphVisualisation
 		{
 			AdjustPanel((Button)sender);
 
-			infoBox.Text = "Укажите первую вершину";
+			InfoBox = "Укажите первую вершину";
 		}
 
 
@@ -328,7 +338,7 @@ namespace GraphVisualisation
 			AdjustPanel(null);
 			BFSSelected = true;
 
-			infoBox.Text = "Укажите начальную вершину";
+			InfoBox = "Укажите начальную вершину";
 		}
 
 
@@ -360,6 +370,34 @@ namespace GraphVisualisation
 				deleteNodeBtn.ForeColor = Color.White;
 				delNodeSelected = true;
 			}
+		}
+
+
+		// Визуализация поиска максимального потока
+		private void MaxFlowBtn_Cllck(object sender, EventArgs e)
+		{
+			AdjustPanel(null);
+			DrawEdges = false;
+			graphSpace.Refresh();
+
+			InfoBox = "Выполняется...";
+
+			Graphics g = this.graphSpace.CreateGraphics();
+			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+			MaxFlow.form = this;
+			MaxFlow.graph = graph;
+			MaxFlow.pen = new Pen(Color.MediumVioletRed, 3);
+			MaxFlow.g = g;
+			MaxFlow.nodes = nodes;
+			MaxFlow.nodeSize = nodeSize;
+
+			if (graph == null || graph.Count() < 2 || MaxFlow.MaxFlowStart() == -1)
+			{
+				InfoBox = "Структура графа непригодна для этого алгоритма";
+			}
+
+			DrawEdges = true;
 		}
 	}
 }
