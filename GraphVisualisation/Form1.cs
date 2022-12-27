@@ -23,6 +23,7 @@ namespace GraphVisualisation
 		bool DrawEdges;
 		string? edgeToAddFirst;
 		readonly Point nodeSize;
+		int delay;
 		public string InfoBox
 		{
 			get { return infoBox.Text; }
@@ -47,6 +48,7 @@ namespace GraphVisualisation
 			nodeSize = new(35, 35);
 			edgeEditBoxForm = edgeEditBox;
 			edgeEditBoxForm.StartPosition = FormStartPosition.Manual;
+			delay = 1250;
 
 			typeof(Panel).InvokeMember("DoubleBuffered",
 			BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
@@ -117,8 +119,8 @@ namespace GraphVisualisation
 				else
 				{
 					string edgeToAddSecond = ((Button)sender).Name;
-					// двунаправленные дуги не реализованы
-					if (graph[edgeToAddSecond].ContainsKey(edgeToAddFirst) is false)
+					// двунаправленные дуги и петли не реализованы
+					if (graph[edgeToAddSecond].ContainsKey(edgeToAddFirst) is false && edgeToAddFirst != edgeToAddSecond)
 					{
 						int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond)) ? graph[edgeToAddFirst][edgeToAddSecond] : 0;
 
@@ -158,11 +160,11 @@ namespace GraphVisualisation
 				string vertex = ((Button)sender).Name;
 
 				BFS.graph = graph;
-				BFS.pen = new Pen(Color.MediumVioletRed, 3);
+				BFS.pen = new Pen(Color.MediumVioletRed, 4);
 				BFS.g = g;
 				BFS.nodes = nodes;
 				BFS.nodeSize = nodeSize;
-				List<string> result = BFS.StartBFS(vertex, 1250);
+				List<string> result = BFS.StartBFS(vertex, delay);
 
 				var tmp = new List<string>() { vertex };
 				tmp.AddRange(result);
@@ -376,26 +378,21 @@ namespace GraphVisualisation
 		// Визуализация поиска максимального потока
 		private void MaxFlowBtn_Cllck(object sender, EventArgs e)
 		{
+			InfoBox = null;
+
 			AdjustPanel(null);
 			DrawEdges = false;
-			graphSpace.Refresh();
-
-			InfoBox = "Выполняется...";
-
-			Graphics g = this.graphSpace.CreateGraphics();
-			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+			Refresh();
 
 			MaxFlow.form = this;
 			MaxFlow.graph = graph;
-			MaxFlow.pen = new Pen(Color.MediumVioletRed, 3);
-			MaxFlow.g = g;
+			MaxFlow.pen = new Pen(Color.MediumVioletRed, 4);
+			MaxFlow.graphSpace = graphSpace;
 			MaxFlow.nodes = nodes;
 			MaxFlow.nodeSize = nodeSize;
 
-			if (graph == null || graph.Count() < 2 || MaxFlow.MaxFlowStart() == -1)
-			{
-				InfoBox = "Структура графа непригодна для этого алгоритма";
-			}
+			int result = MaxFlow.MaxFlowStart(delay);
+			InfoBox = (graph == null || graph.Count() < 2 || result == -1) ? InfoBox = "Структура графа непригодна для этого алгоритма" : $"Максимальный поток = {result}";
 
 			DrawEdges = true;
 		}

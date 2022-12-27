@@ -14,14 +14,36 @@ namespace GraphVisualisation.Algorithms
 		static public MyGraph.Graph graph { get; set; }
 		static public List<Button> nodes { get; set; }
 		static public Pen pen { get; set; }
-		static public Graphics g { get; set; }
+		static public Panel graphSpace { get; set; }
 		static public Point nodeSize { get; set; }
+
+		private static Graphics g;
+		private static int delay;
 
 		static int t1;
 		static int t2;
 
 
-		private static  (string, string, bool) GetSourceEffluent()
+		private static void SetLocCorrection()
+		{
+			t1 = nodeSize.X / 2;
+			t2 = nodeSize.Y / 2;
+		}
+
+
+		private static void DrawLine(string v1, string v2)
+		{
+			Button node1 = nodes.Find(v => v.Name == v1);
+			Button node2 = nodes.Find(v => v.Name == v2);
+
+			var startPoint = new Point(node1.Location.X + t1, node1.Location.Y + t2);
+			var endPoint = new Point(node2.Location.X + t1, node2.Location.Y + t2);
+
+			g.DrawLine(pen, startPoint, endPoint);
+		}
+
+
+		private static (string, string, bool) GetSourceEffluent()
 		{
 			// изначально считаем, что все вершины могут быть стоками и истоками
 			var potentialSources = graph.graph.graphDict.Keys.ToList();
@@ -54,6 +76,8 @@ namespace GraphVisualisation.Algorithms
 			// обновляем минимальное значение потока
 			if (stack.Count > 0)
 			{
+				DrawLine(stack.Peek(), curV);
+
 				if (net[stack.Peek()].ContainsKey(curV))
 				{
 					minValue = Math.Min(minValue, net[stack.Peek()][curV]);
@@ -93,6 +117,8 @@ namespace GraphVisualisation.Algorithms
 				}
 				if (maxLocalFlow > 0)
 				{
+					Thread.Sleep(delay);
+
 					// найдена ненасыщенная дуга, рекурсивно вызываем обход в глубину
 					int tmp = Dfs(maxLocalFlowVertex, effluent, net, stack, minValue, ref maxFlow, netReversed);
 					if (tmp > 0)
@@ -127,6 +153,8 @@ namespace GraphVisualisation.Algorithms
 				}
 				if (maxLocalFlow > 0)
 				{
+					Thread.Sleep(delay);
+
 					// найдена ненасыщенная дуга, рекурсивно вызываем обход в глубину
 					int tmp = Dfs(maxLocalFlowVertex, effluent, net, stack, minValue, ref maxFlow, netReversed);
 					if (tmp > 0)
@@ -154,8 +182,8 @@ namespace GraphVisualisation.Algorithms
 		}
 
 
-		public static int MaxFlowStart()
-		{						
+		public static int MaxFlowStart(int delayParam)
+		{
 			var tmp = GetSourceEffluent();
 			string source = tmp.Item1;
 			string effluent = tmp.Item2;
@@ -171,10 +199,21 @@ namespace GraphVisualisation.Algorithms
 				Stack<string> stack = new();
 				int maxFlow = 0;
 
+				SetLocCorrection();
+				g = graphSpace.CreateGraphics();
+				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+				delay = delayParam;
+
+				graphSpace_Paint(net, netReversed);
+				PrintFlow(0);
+
 				// запускаем модифицированный обход в глубину из истока, пока он не вернет 0
 				while (Dfs(source, effluent, net, stack, int.MaxValue, ref maxFlow, netReversed) != 0)
 				{
-					form.InfoBox = $"Максимальный поток: {maxFlow.ToString()}";
+					Thread.Sleep(delay);
+					graphSpace.Refresh();
+					graphSpace_Paint(net, netReversed);
+					PrintFlow(maxFlow);
 					stack = new();
 				}
 
@@ -208,5 +247,52 @@ namespace GraphVisualisation.Algorithms
 
 			return graphReversed;
 		}
+
+
+		// Отрисовка связей между вершинами
+		private static void graphSpace_Paint(MyGraph.Graph net, MyGraph.Graph netReversed)
+		{
+			var pen = new Pen(Color.Black, 2);
+
+			foreach (var v1 in graph)
+			{
+				foreach (var v2 in v1.Value)
+				{
+					Button node1 = nodes.Find(v => v.Name == v1.Key);
+					Button node2 = nodes.Find(v => v.Name == v2.Key);
+
+					var startPoint = new Point(node1.Location.X + t1, node1.Location.Y + t2);
+					var endPoint = new Point(node2.Location.X + t1, node2.Location.Y + t2);
+
+					int weightStraight = net[v1.Key][v2.Key];
+					int weightGay = netReversed[v2.Key][v1.Key];
+
+					g.DrawLine(pen, startPoint, endPoint);
+					g.DrawString($"[{weightStraight.ToString()}, {weightGay.ToString()}]", new Font("Arial", 12), Brushes.DarkRed,
+						new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
+				}
+			}
+		}
+
+
+		// Вывести значение текущего потока
+		private static void PrintFlow(int flow)
+		{
+			g.DrawString($"Max flow: {flow}", new Font("Arial", 11), Brushes.Black,
+				new Point(80, 2));
+		}
+
+
+		//private static void DrawString((string, string) v, (int, int) weights)
+		//{
+		//	Button node1 = nodes.Find(x => x.Name == v.Item1);
+		//	Button node2 = nodes.Find(x => x.Name == v.Item2);
+
+		//	var startPoint = new Point(node1.Location.X + t1, node1.Location.Y + t2);
+		//	var endPoint = new Point(node2.Location.X + t1, node2.Location.Y + t2);
+
+		//	g.DrawString($"[{weights.Item1.ToString()}, {weights.Item2.ToString()} ]", new Font("Arial", 12), Brushes.DarkRed,
+		//		new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
+		//}
 	}
 }

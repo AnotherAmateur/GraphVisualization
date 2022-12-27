@@ -58,7 +58,7 @@
             this.алгоритыToolStripMenuItem});
 			this.AlgorithmsBtn.Location = new System.Drawing.Point(-6, -2);
 			this.AlgorithmsBtn.Name = "AlgorithmsBtn";
-			this.AlgorithmsBtn.Size = new System.Drawing.Size(202, 24);
+			this.AlgorithmsBtn.Size = new System.Drawing.Size(82, 24);
 			this.AlgorithmsBtn.Stretch = false;
 			this.AlgorithmsBtn.TabIndex = 8;
 			// 
@@ -186,6 +186,7 @@
 			this.Controls.Add(this.isDirectedCheckBox);
 			this.Controls.Add(this.isWeighedCheckBox);
 			this.Controls.Add(this.graphSpace);
+			this.DoubleBuffered = true;
 			this.MainMenuStrip = this.AlgorithmsBtn;
 			this.MinimumSize = new System.Drawing.Size(765, 100);
 			this.Name = "GraphVisul";
