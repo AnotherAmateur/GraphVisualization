@@ -277,7 +277,7 @@ namespace GraphVisualisation
 						if (isDirected)
 						{
 							pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(
-								startPoint, endPoint, Color.MediumVioletRed, Color.GhostWhite))
+								startPoint, endPoint, Color.Black, Color.GhostWhite))
 							{ Width = 2 };
 						}
 
@@ -301,13 +301,11 @@ namespace GraphVisualisation
 		}
 
 
-
+		// Визуализация обхода в ширину
 		private void BFSBtn_Click(object sender, EventArgs e)
 		{
 			BFS.form = this;
 			BFS.graph = graph;
-			//BFS.pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(new Point(0, 0), 
-			//	new Point(10, 10), Color.MediumVioletRed, Color.GhostWhite)) { Width = 3 };
 			BFS.pen = new Pen(Color.MediumVioletRed, 3);
 			var g = this.graphSpace.CreateGraphics();
 			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;

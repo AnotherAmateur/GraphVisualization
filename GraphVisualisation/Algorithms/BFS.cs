@@ -16,13 +16,19 @@ namespace GraphVisualisation.Algorithms
 		static public Graphics g { get; set; }
 		static public Point nodeSize { get; set; }
 
-		readonly static int t1 = nodeSize.X / 2;
-		readonly static int t2 = nodeSize.Y / 2;
+		static int t1;
+		static int t2;
 
 
-		private async static void DrawLine(string v1, string v2, int i)
+		private static void SetLocCorrection()
 		{
-			Thread.Sleep(500 * i);
+			t1 = nodeSize.X / 2;
+			t2 = nodeSize.Y / 2;
+		}
+
+		private async static void DrawLine(string v1, string v2, int ik)
+		{
+			Thread.Sleep(1200 * k);
 
 			Button node1 = nodes.Find(v => v.Name == v1);
 			Button node2 = nodes.Find(v => v.Name == v2);
@@ -43,6 +49,8 @@ namespace GraphVisualisation.Algorithms
 
 		public static List<string> StartBFS(string v)
 		{
+			SetLocCorrection();
+
 			List<string> result = new();
 			List<string> used = new();
 			Queue<string> queue = new();
