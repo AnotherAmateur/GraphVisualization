@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using GraphVisualisation.Algorithms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace GraphVisualisation
 {
@@ -15,10 +16,11 @@ namespace GraphVisualisation
 		MyGraph.Graph? graph;
 		bool isDirected;
 		bool isWeighed;
-		bool addNode;
-		bool removeNode;
+		bool addNodeSelected;
+		bool delNodeSelected;
 		bool isNewGraph;
-		bool addEdge;
+		bool addEdgeSelected;
+		bool BFSSelected;
 		string? edgeToAddFirst;
 		readonly Point nodeSize;
 
@@ -48,7 +50,7 @@ namespace GraphVisualisation
 			if (e.Button == MouseButtons.Left)
 			{
 				// блок добавления вершин в класс графа и поле отрисовки
-				if (addNode)
+				if (addNodeSelected)
 				{
 					++nodeCount;
 
@@ -77,18 +79,14 @@ namespace GraphVisualisation
 					nodes.Add(newNode);
 				}
 			}
-			else if (e.Button == MouseButtons.Right)
-			{
-
-			}
 		}
-
+		
 
 		// Обработка нажатия левый клик по вершине
-		private void node_MouseClick(object? sender, EventArgs e)
+		private async void node_MouseClick(object? sender, EventArgs e)
 		{
 			// удаление вершины
-			if (removeNode)
+			if (delNodeSelected)
 			{
 				Button buttonToRemove = nodes.Find(x => x == sender);
 
@@ -99,7 +97,7 @@ namespace GraphVisualisation
 				graphSpace.Refresh();
 			}
 			// редактирование ребер/дуг
-			else if (addEdge)
+			else if (addEdgeSelected)
 			{
 				if (edgeToAddFirst == null)
 				{
@@ -109,25 +107,28 @@ namespace GraphVisualisation
 				else
 				{
 					string edgeToAddSecond = ((Button)sender).Name;
-
-					int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond)) ? graph[edgeToAddFirst][edgeToAddSecond] : 0;
-
-					edgeEditBoxForm.Weight = weight;
-					edgeEditBoxForm.InfoBox = "Укажите вес";
-
-
-					edgeEditBoxForm.Location = new Point(this.Location.X + (int)(this.Width / 2 - edgeEditBoxForm.Width / 2), this.Location.Y + (int)(this.Height / 2 - edgeEditBoxForm.Height / 2));
-					edgeEditBoxForm.ShowDialog();
-
-					weight = edgeEditBoxForm.Weight;
-
-					if (edgeEditBoxForm.EdgeAdded)
+					// двунаправленные дуги не реализованы
+					if (graph[edgeToAddSecond].ContainsKey(edgeToAddFirst) is false)
 					{
-						graph.AddOrUpdateEdge(edgeToAddFirst, edgeToAddSecond, weight);
-					}
-					else
-					{
-						graph.DeleteEdge(edgeToAddFirst, edgeToAddSecond);
+						int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond)) ? graph[edgeToAddFirst][edgeToAddSecond] : 0;
+
+						edgeEditBoxForm.Weight = weight;
+						edgeEditBoxForm.InfoBox = "Укажите вес";
+
+
+						edgeEditBoxForm.Location = new Point(this.Location.X + (int)(this.Width / 2 - edgeEditBoxForm.Width / 2), this.Location.Y + (int)(this.Height / 2 - edgeEditBoxForm.Height / 2));
+						edgeEditBoxForm.ShowDialog();
+
+						weight = edgeEditBoxForm.Weight;
+
+						if (edgeEditBoxForm.EdgeAdded)
+						{
+							graph.AddOrUpdateEdge(edgeToAddFirst, edgeToAddSecond, weight);
+						}
+						else
+						{
+							graph.DeleteEdge(edgeToAddFirst, edgeToAddSecond);
+						}
 					}
 
 					graphSpace.Refresh();
@@ -135,13 +136,35 @@ namespace GraphVisualisation
 					infoBox.Text = "Укажите первую вершину";
 				}
 			}
+			// Визуализация обхода в ширину
+			else if (BFSSelected)
+			{
+				infoBox.Text = "Выполняется...";
+				Refresh();
+
+				Graphics g = this.graphSpace.CreateGraphics();
+				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+
+				string vertex = ((Button)sender).Name;
+
+				BFS.graph = graph;
+				BFS.pen = new Pen(Color.MediumVioletRed, 3);
+				BFS.g = g;
+				BFS.nodes = nodes;
+				BFS.nodeSize = nodeSize;
+				List<string> result = BFS.StartBFS(vertex, 1250);
+
+				var tmp = new List<string>() { vertex };
+				tmp.AddRange(result);
+				infoBox.Text = $"Порядок обхода: {string.Join(", ", tmp)}"; ;
+			}
 		}
 
 
 		// Перемещение вершины зажатой левой кнопкой мыши
 		private void node_MouseMove(object? sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left && addNode)
+			if (e.Button == MouseButtons.Left && addNodeSelected)
 			{
 				Button buttonToMove = nodes.Find(x => x == sender);
 
@@ -181,9 +204,8 @@ namespace GraphVisualisation
 		// Обработка нажатия на кнопку "Добавить вершины"
 		private void addNodeBtn_Click(object sender, EventArgs e)
 		{
-			addNode = true;
-			removeNode = false;
-			addEdge = false;
+			AdjustPanel((Button)sender);
+
 			isDirectedCheckBox.Enabled = false;
 			isWeighedCheckBox.Enabled = false;
 
@@ -224,9 +246,9 @@ namespace GraphVisualisation
 			nodeCount = 0;
 
 			isNewGraph = true;
-			addNode = false;
-			removeNode = false;
-			addEdge = false;
+
+			AdjustPanel(null);
+
 			edgeToAddFirst = null;
 			infoBox.Text = null;
 
@@ -235,17 +257,14 @@ namespace GraphVisualisation
 				graphSpace.Controls.Remove(item);
 			}
 			nodes.Clear();
-
-			graphSpace.Refresh();
 		}
 
 
 		// Обработка нажатия на кнопку "Удалить вершины"
 		private void deleteNodeBtn_Click(object sender, EventArgs e)
 		{
-			removeNode = true;
-			addNode = false;
-			addEdge = false;
+			AdjustPanel((Button)sender);
+
 			edgeToAddFirst = null;
 			infoBox.Text = null;
 		}
@@ -281,9 +300,13 @@ namespace GraphVisualisation
 							{ Width = 2 };
 						}
 
+						if (isWeighed)
+						{
+							g.DrawString("[" + graph[v1.Key][v2.Key].ToString() + "]", new Font("Arial", 12), Brushes.DarkRed,
+										new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
+						}
+
 						g.DrawLine(pen, startPoint, endPoint);
-						g.DrawString("[" + graph[v1.Key][v2.Key].ToString() + "]", new Font("Arial", 12), Brushes.DarkRed,
-							new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
 					}
 				}
 			}
@@ -293,9 +316,7 @@ namespace GraphVisualisation
 		// Обработка нажатия на кнопку "Добавить свзяь"
 		private void addEdgeBtn_Click(object sender, EventArgs e)
 		{
-			addNode = false;
-			removeNode = false;
-			addEdge = true;
+			AdjustPanel((Button)sender);
 
 			infoBox.Text = "Укажите первую вершину";
 		}
@@ -304,16 +325,41 @@ namespace GraphVisualisation
 		// Визуализация обхода в ширину
 		private void BFSBtn_Click(object sender, EventArgs e)
 		{
-			BFS.form = this;
-			BFS.graph = graph;
-			BFS.pen = new Pen(Color.MediumVioletRed, 3);
-			var g = this.graphSpace.CreateGraphics();
-			g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-			BFS.g = g;
-			BFS.nodes = nodes;
-			BFS.nodeSize = nodeSize;
+			AdjustPanel(null);
+			BFSSelected = true;
 
-			BFS.StartBFS("1");
+			infoBox.Text = "Укажите начальную вершину";
+		}
+
+
+		// Установка активной функции
+		private void AdjustPanel(Button button)
+		{
+			graphSpace.Refresh();
+
+			addNodeBtn.ForeColor = Color.Black;
+			addEdgeBtn.ForeColor = Color.Black;
+			deleteNodeBtn.ForeColor = Color.Black;
+			addNodeSelected = false;
+			delNodeSelected = false;
+			addEdgeSelected = false;
+			BFSSelected = false;
+
+			if (button == addNodeBtn)
+			{
+				addNodeBtn.ForeColor = Color.White;
+				addNodeSelected = true;
+			}
+			else if (button == addEdgeBtn)
+			{
+				addEdgeBtn.ForeColor = Color.White;
+				addEdgeSelected = true;
+			}
+			else if (button == deleteNodeBtn)
+			{
+				deleteNodeBtn.ForeColor = Color.White;
+				delNodeSelected = true;
+			}
 		}
 	}
 }

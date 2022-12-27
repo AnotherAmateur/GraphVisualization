@@ -53,5 +53,20 @@ namespace GraphVisualisation
 			EdgeAdded = true;
 			this.Hide();
 		}
+
+		private void setWeightBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				if (int.TryParse(setWeightBox.Text, out weight) is false)
+				{
+					edEdgeBoxInfo.Text = "Неверный формат";
+				}
+
+				Weight = weight;
+				EdgeAdded = true;
+				this.Hide();
+			}
+		}
 	}
 }

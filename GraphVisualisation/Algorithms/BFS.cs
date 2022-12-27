@@ -9,7 +9,6 @@ namespace GraphVisualisation.Algorithms
 {
 	public static class BFS
 	{
-		static public GraphVisul form { get; set; }
 		static public MyGraph.Graph graph { get; set; }
 		static public List<Button> nodes { get; set; }
 		static public Pen pen { get; set; }
@@ -26,10 +25,9 @@ namespace GraphVisualisation.Algorithms
 			t2 = nodeSize.Y / 2;
 		}
 
-		private async static void DrawLine(string v1, string v2, int ik)
-		{
-			Thread.Sleep(1200 * k);
 
+		private static void DrawLine(string v1, string v2)
+		{
 			Button node1 = nodes.Find(v => v.Name == v1);
 			Button node2 = nodes.Find(v => v.Name == v2);
 
@@ -39,15 +37,17 @@ namespace GraphVisualisation.Algorithms
 			g.DrawLine(pen, startPoint, endPoint);
 		}
 
+
 		private static void DrawString(string v, int number)
 		{
 			Button node = nodes.Find(x => x.Name == v);
 
 			g.DrawString("(" + number.ToString() + ")", new Font("Arial", 12), Brushes.Blue,
-				new Point(node.Location.X, node.Location.Y + nodeSize.Y));
+				new Point(node.Location.X + (int) t1 / 3, node.Location.Y + nodeSize.Y));
 		}
 
-		public static List<string> StartBFS(string v)
+
+		public static List<string> StartBFS(string v, int delay)
 		{
 			SetLocCorrection();
 
@@ -69,8 +69,12 @@ namespace GraphVisualisation.Algorithms
 					{
 						if (used.Contains(v2.Key) is false)
 						{
-							DrawLine(v1, v2.Key, k);
+							Thread.Sleep(delay);
+
+							DrawLine(v1, v2.Key);
 							DrawString(v2.Key, k);
+							++k;						
+
 							used.Add(v2.Key);
 							result.Add(v2.Key);
 						}

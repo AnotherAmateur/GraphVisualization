@@ -42,6 +42,7 @@
 			this.setWeightBox.TabIndex = 0;
 			this.setWeightBox.Text = "0";
 			this.setWeightBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+			this.setWeightBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.setWeightBox_KeyDown);
 			// 
 			// delEdgeBtn
 			// 
