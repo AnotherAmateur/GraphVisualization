@@ -70,7 +70,7 @@
 			this.edEdgeBoxInfo.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.edEdgeBoxInfo.Location = new System.Drawing.Point(12, 28);
 			this.edEdgeBoxInfo.Name = "edEdgeBoxInfo";
-			this.edEdgeBoxInfo.Size = new System.Drawing.Size(75, 16);
+			this.edEdgeBoxInfo.Size = new System.Drawing.Size(152, 16);
 			this.edEdgeBoxInfo.TabIndex = 3;
 			this.edEdgeBoxInfo.Text = "Укажите вес";
 			// 

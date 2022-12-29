@@ -44,14 +44,14 @@ namespace GraphVisualisation
 
 		private void addEdgeBtn_Click(object sender, EventArgs e)
 		{
-			if (int.TryParse(setWeightBox.Text, out weight) is false)
+			if (int.TryParse(setWeightBox.Text, out weight) )
 			{
-				edEdgeBoxInfo.Text = "Неверный формат";
+				Weight = weight;
+				EdgeAdded = true;
+				this.Hide();
 			}
 
-			Weight = weight;
-			EdgeAdded = true;
-			this.Hide();
+			edEdgeBoxInfo.Text = "Неверный формат";
 		}
 
 		private void setWeightBox_KeyDown(object sender, KeyEventArgs e)

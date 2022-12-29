@@ -53,6 +53,11 @@ namespace GraphVisualisation.Algorithms
 			{
 				foreach (string v2 in graph[v1].Keys)
 				{
+					if (graph[v2].ContainsKey(v1))
+					{
+						return (null, null, false);
+					}
+
 					potentialEffluents.Remove(v1);
 
 					if (potentialSources.Contains(v2))
@@ -220,6 +225,8 @@ namespace GraphVisualisation.Algorithms
 				return maxFlow;
 			}
 
+			form.DrawEdges = true;
+			graphSpace.Refresh();
 			return -1;
 		}
 

@@ -4,6 +4,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using GraphVisualisation.Algorithms;
 
 namespace GraphVisualisation
@@ -20,7 +21,7 @@ namespace GraphVisualisation
 		bool isNewGraph;
 		bool addEdgeSelected;
 		bool BFSSelected;
-		bool DrawEdges;
+		public bool DrawEdges { get; set; }
 		string? edgeToAddFirst;
 		readonly Point nodeSize;
 		int delay;
@@ -94,8 +95,8 @@ namespace GraphVisualisation
 		}
 
 
-		// Обработка нажатия левый клик по вершине
-		private async void node_MouseClick(object? sender, EventArgs e)
+		// Обработка левого клика по вершине
+		private void node_MouseClick(object? sender, EventArgs e)
 		{
 			// удаление вершины
 			if (delNodeSelected)
@@ -119,28 +120,25 @@ namespace GraphVisualisation
 				else
 				{
 					string edgeToAddSecond = ((Button)sender).Name;
-					// двунаправленные дуги и петли не реализованы
-					if (graph[edgeToAddSecond].ContainsKey(edgeToAddFirst) is false && edgeToAddFirst != edgeToAddSecond)
+
+					int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond)) ? graph[edgeToAddFirst][edgeToAddSecond] : 0;
+
+					edgeEditBoxForm.Weight = weight;
+					edgeEditBoxForm.InfoBox = "Укажите вес";
+
+
+					edgeEditBoxForm.Location = new Point(this.Location.X + (int)(this.Width / 2 - edgeEditBoxForm.Width / 2), this.Location.Y + (int)(this.Height / 2 - edgeEditBoxForm.Height / 2));
+					edgeEditBoxForm.ShowDialog();
+
+					weight = edgeEditBoxForm.Weight;
+
+					if (edgeEditBoxForm.EdgeAdded)
 					{
-						int weight = (isWeighed && graph[edgeToAddFirst].ContainsKey(edgeToAddSecond)) ? graph[edgeToAddFirst][edgeToAddSecond] : 0;
-
-						edgeEditBoxForm.Weight = weight;
-						edgeEditBoxForm.InfoBox = "Укажите вес";
-
-
-						edgeEditBoxForm.Location = new Point(this.Location.X + (int)(this.Width / 2 - edgeEditBoxForm.Width / 2), this.Location.Y + (int)(this.Height / 2 - edgeEditBoxForm.Height / 2));
-						edgeEditBoxForm.ShowDialog();
-
-						weight = edgeEditBoxForm.Weight;
-
-						if (edgeEditBoxForm.EdgeAdded)
-						{
-							graph.AddOrUpdateEdge(edgeToAddFirst, edgeToAddSecond, weight);
-						}
-						else
-						{
-							graph.DeleteEdge(edgeToAddFirst, edgeToAddSecond);
-						}
+						graph.AddOrUpdateEdge(edgeToAddFirst, edgeToAddSecond, weight);
+					}
+					else
+					{
+						graph.DeleteEdge(edgeToAddFirst, edgeToAddSecond);
 					}
 
 					graphSpace.Refresh();
@@ -285,41 +283,72 @@ namespace GraphVisualisation
 		// Отрисовка связей между вершинами
 		private void graphSpace_Paint(object sender, PaintEventArgs e)
 		{
-			if (DrawEdges && nodes.Count > 1)
+			if (DrawEdges && nodes.Count > 0)
 			{
 				int t1 = nodeSize.X / 2;
 				int t2 = nodeSize.Y / 2;
 
 				var g = e.Graphics;
-				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+				g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
 				var pen = new Pen(Color.Black, 2);
 
+				List<string> used = new();
 				foreach (var v1 in graph)
 				{
 					foreach (var v2 in v1.Value)
 					{
-						Button node1 = nodes.Find(v => v.Name == v1.Key);
-						Button node2 = nodes.Find(v => v.Name == v2.Key);
-
-						var startPoint = new Point(node1.Location.X + t1, node1.Location.Y + t2);
-						var endPoint = new Point(node2.Location.X + t1, node2.Location.Y + t2);
-
-						if (isDirected)
+						if (v1.Key == v2.Key)
 						{
-							pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(
-								startPoint, endPoint, Color.Black, Color.GhostWhite))
-							{ Width = 2 };
-						}
+							Button node = nodes.Find(v => v.Name == v1.Key);
+							int circleWidth = 45;
+							int circleHeight = 45;
+							var centerPoint = new Point(node.Location.X + t1 - circleWidth, node.Location.Y + t2 - circleHeight);
 
-						if (isWeighed)
+							g.DrawEllipse(pen, centerPoint.X, centerPoint.Y, circleWidth, circleHeight);
+
+							if (isWeighed)
+							{
+								g.DrawString("[" + graph[v1.Key][v2.Key].ToString() + "]", new Font("Arial", 12), Brushes.DarkRed, new Point(centerPoint.X, centerPoint.Y - (int)circleHeight / 2));
+							}
+						}
+						else
 						{
-							g.DrawString("[" + graph[v1.Key][v2.Key].ToString() + "]", new Font("Arial", 12), Brushes.DarkRed,
-										new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
-						}
+							Button node1 = nodes.Find(v => v.Name == v1.Key);
+							Button node2 = nodes.Find(v => v.Name == v2.Key);
 
-						g.DrawLine(pen, startPoint, endPoint);
+							var startPoint = new Point(node1.Location.X + t1, node1.Location.Y + t2);
+							var endPoint = new Point(node2.Location.X + t1, node2.Location.Y + t2);
+
+							if (isWeighed)
+							{
+								if (graph[v2.Key].ContainsKey(v1.Key))
+								{
+									if (used.Contains(v2.Key) is false)
+									{
+										g.DrawString($"[{graph[v1.Key][v2.Key].ToString()}, {graph[v2.Key][v1.Key].ToString()}]", new Font("Arial", 12), Brushes.DarkRed,
+											new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
+									}
+								}
+								else
+								{
+									g.DrawString("[" + graph[v1.Key][v2.Key].ToString() + "]", new Font("Arial", 12), Brushes.DarkRed,
+											new Point((int)((startPoint.X + endPoint.X) / 2), (int)((startPoint.Y + endPoint.Y)) / 2));
+								}
+							}
+
+							if (isDirected && graph[v2.Key].ContainsKey(v1.Key) is false)
+							{
+								pen = new Pen(new System.Drawing.Drawing2D.LinearGradientBrush(
+									startPoint, endPoint, Color.Black, Color.GhostWhite))
+								{ Width = 2 };
+							}
+
+							g.DrawLine(pen, startPoint, endPoint);
+						}
 					}
+
+					used.Add(v1.Key);
 				}
 			}
 		}
