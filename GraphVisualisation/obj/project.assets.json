@@ -17,8 +17,8 @@
   "libraries": {
     "Graph/1.0.0": {
       "type": "project",
-      "path": "../../../../../VisualProj/Graph/Graph.csproj",
-      "msbuildProject": "../../../../../VisualProj/Graph/Graph.csproj"
+      "path": "../Graph/Graph.csproj",
+      "msbuildProject": "../Graph/Graph.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -53,8 +53,8 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "projectReferences": {
-            "D:\\VisualProj\\Graph\\Graph.csproj": {
-              "projectPath": "D:\\VisualProj\\Graph\\Graph.csproj"
+            "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\Graph.csproj": {
+              "projectPath": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\Graph.csproj"
             }
           }
         }

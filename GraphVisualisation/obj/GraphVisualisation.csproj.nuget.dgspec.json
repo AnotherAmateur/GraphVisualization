@@ -28,8 +28,8 @@
           "net6.0-windows7.0": {
             "targetAlias": "net6.0-windows",
             "projectReferences": {
-              "D:\\VisualProj\\Graph\\Graph.csproj": {
-                "projectPath": "D:\\VisualProj\\Graph\\Graph.csproj"
+              "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\Graph.csproj": {
+                "projectPath": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\Graph.csproj"
               }
             }
           }
@@ -66,14 +66,14 @@
         }
       }
     },
-    "D:\\VisualProj\\Graph\\Graph.csproj": {
+    "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\Graph.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\VisualProj\\Graph\\Graph.csproj",
+        "projectUniqueName": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\Graph.csproj",
         "projectName": "Graph",
-        "projectPath": "D:\\VisualProj\\Graph\\Graph.csproj",
+        "projectPath": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\Graph.csproj",
         "packagesPath": "C:\\Users\\dmitr\\.nuget\\packages\\",
-        "outputPath": "D:\\VisualProj\\Graph\\obj\\",
+        "outputPath": "D:\\Uni\\5 semester\\GraphVisualisation_github\\GraphVisualization\\Graph\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\dmitr\\AppData\\Roaming\\NuGet\\NuGet.Config",

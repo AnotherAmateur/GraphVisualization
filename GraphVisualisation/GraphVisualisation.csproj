@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\VisualProj\Graph\Graph.csproj" />
+    <ProjectReference Include="..\Graph\Graph.csproj" />
   </ItemGroup>
 
   <ItemGroup>

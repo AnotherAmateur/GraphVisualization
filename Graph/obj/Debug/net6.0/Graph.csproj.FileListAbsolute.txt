@@ -1,0 +1,45 @@
+D:\VisualProj\Graph\bin\Debug\net6.0\Graph.exe
+D:\VisualProj\Graph\bin\Debug\net6.0\Graph.deps.json
+D:\VisualProj\Graph\bin\Debug\net6.0\Graph.runtimeconfig.json
+D:\VisualProj\Graph\bin\Debug\net6.0\Graph.dll
+D:\VisualProj\Graph\bin\Debug\net6.0\Graph.pdb
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.csproj.AssemblyReference.cache
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.GeneratedMSBuildEditorConfig.editorconfig
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.AssemblyInfoInputs.cache
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.AssemblyInfo.cs
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.csproj.CoreCompileInputs.cache
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.dll
+D:\VisualProj\Graph\obj\Debug\net6.0\refint\Graph.dll
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.pdb
+D:\VisualProj\Graph\obj\Debug\net6.0\Graph.genruntimeconfig.cache
+D:\VisualProj\Graph\obj\Debug\net6.0\ref\Graph.dll
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.csproj.AssemblyReference.cache
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.GeneratedMSBuildEditorConfig.editorconfig
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.AssemblyInfoInputs.cache
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.AssemblyInfo.cs
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.csproj.CoreCompileInputs.cache
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.dll
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\refint\Graph.dll
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.pdb
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\bin\Debug\net6.0\Graph.exe
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\bin\Debug\net6.0\Graph.deps.json
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\bin\Debug\net6.0\Graph.runtimeconfig.json
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\bin\Debug\net6.0\Graph.dll
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\bin\Debug\net6.0\Graph.pdb
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\Graph.genruntimeconfig.cache
+D:\Uni\5 semester\GraphVisual\GraphVisualisation\Graph\obj\Debug\net6.0\ref\Graph.dll
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\bin\Debug\net6.0\Graph.exe
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\bin\Debug\net6.0\Graph.deps.json
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\bin\Debug\net6.0\Graph.runtimeconfig.json
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\bin\Debug\net6.0\Graph.dll
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\bin\Debug\net6.0\Graph.pdb
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.csproj.AssemblyReference.cache
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.GeneratedMSBuildEditorConfig.editorconfig
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.AssemblyInfoInputs.cache
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.AssemblyInfo.cs
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.csproj.CoreCompileInputs.cache
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.dll
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\refint\Graph.dll
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.pdb
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\Graph.genruntimeconfig.cache
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\Graph\obj\Debug\net6.0\ref\Graph.dll

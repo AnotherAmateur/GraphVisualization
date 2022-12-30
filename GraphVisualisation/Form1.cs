@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Drawing;
@@ -68,8 +69,15 @@ namespace GraphVisualisation
 			{
 				// блок добавления вершин в класс графа и поле отрисовки
 				if (addNodeSelected)
-				{
-					++nodeCount;
+				{					
+					if (sender.GetType() == typeof(string))
+					{
+						nodeCount = Math.Max(nodeCount, int.Parse((string)sender));
+					}
+					else
+					{
+						++nodeCount;
+					}				
 
 					var clickLocation = e.Location;
 					var newNode = new Button();
@@ -82,10 +90,10 @@ namespace GraphVisualisation
 					graphSpace.Controls.Add(newNode);
 					newNode.MouseDown += new MouseEventHandler(onNodeBtn_MouseDown);
 					newNode.MouseMove += new MouseEventHandler(node_MouseMove);
-					newNode.Click += new EventHandler(node_MouseClick);					
+					newNode.Click += new EventHandler(node_MouseClick);
 
-					graph.AddNode(newNode.Name);
 					nodes.Add(newNode);
+					graph.AddNode(newNode.Name);
 				}
 			}
 		}
@@ -445,25 +453,23 @@ namespace GraphVisualisation
 
 					isDirected = sr.ReadLine() == true.ToString() ? true : false;
 					isWeighed = sr.ReadLine() == true.ToString() ? true : false;
-					
+
 					isWeighedCheckBox.Checked = isWeighed;
 					isDirectedCheckBox.Checked = isDirected;
 					addNodeBtn_Click(addNodeBtn, null);
 
-					int n = int.Parse(sr.ReadLine());
-
 					// добавление вершин
-					for (int i = 1; i <= n; i++)
+					foreach (string v in sr.ReadLine().Split('/', StringSplitOptions.RemoveEmptyEntries))
 					{
-						graph.AddNode(i.ToString());
+						graph.AddNode(v);
 					}
 
 					// добавление ребер
-					for (int i = 0; i < n; i++)
+					for (int i = 0; i < graph.Count(); i++)
 					{
 						int[] point = sr.ReadLine().Split(' ').Select(x => int.Parse(x)).ToArray();
-						graphSpace_MouseClick(null, new MouseEventArgs(MouseButtons.Left, 0, point[0], point[1], 0));
 						string[] adjacencyList = sr.ReadLine().Split('/');
+						graphSpace_MouseClick(adjacencyList[0], new MouseEventArgs(MouseButtons.Left, 0, point[0], point[1], 0));
 
 						if (isWeighed)
 						{
@@ -509,7 +515,7 @@ namespace GraphVisualisation
 				{
 					sw.WriteLine(isDirected);
 					sw.WriteLine(isWeighed);
-					sw.WriteLine(graph.Count());
+					sw.WriteLine(string.Join('/', graph.graph.graphDict.Keys));
 
 					foreach (var v in graph)
 					{
