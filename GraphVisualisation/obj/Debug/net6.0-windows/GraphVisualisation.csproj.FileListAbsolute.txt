@@ -45,3 +45,4 @@ D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\GraphVisualisatio
 D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\GraphVisualisation\obj\Debug\net6.0-windows\GraphVisualisation.pdb
 D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\GraphVisualisation\obj\Debug\net6.0-windows\GraphVisualisation.genruntimeconfig.cache
 D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\GraphVisualisation\obj\Debug\net6.0-windows\ref\GraphVisualisation.dll
+D:\Uni\5 semester\GraphVisualisation_github\GraphVisualization\GraphVisualisation\obj\Debug\net6.0-windows\GraphVisualisation.Properties.Resources.resources

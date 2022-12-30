@@ -45,31 +45,34 @@ namespace GraphVisualisation.Algorithms
 
 		private static (string, string, bool) GetSourceEffluent()
 		{
-			// изначально считаем, что все вершины могут быть стоками и истоками
-			var potentialSources = graph.graph.graphDict.Keys.ToList();
-			var potentialEffluents = graph.graph.graphDict.Keys.ToList();
-			// перебор всех дуг, исключение из списков неподходящих вершин
-			foreach (string v1 in graph.graph.graphDict.Keys)
+			if (graph != null)
 			{
-				foreach (string v2 in graph[v1].Keys)
+				// изначально считаем, что все вершины могут быть стоками и истоками
+				var potentialSources = graph.graph.graphDict.Keys.ToList();
+				var potentialEffluents = graph.graph.graphDict.Keys.ToList();
+				// перебор всех дуг, исключение из списков неподходящих вершин
+				foreach (string v1 in graph.graph.graphDict.Keys)
 				{
-					if (graph[v2].ContainsKey(v1))
+					foreach (string v2 in graph[v1].Keys)
 					{
-						return (null, null, false);
-					}
+						if (graph[v2].ContainsKey(v1))
+						{
+							return (null, null, false);
+						}
 
-					potentialEffluents.Remove(v1);
+						potentialEffluents.Remove(v1);
 
-					if (potentialSources.Contains(v2))
-					{
-						potentialSources.Remove(v2);
+						if (potentialSources.Contains(v2))
+						{
+							potentialSources.Remove(v2);
+						}
 					}
 				}
-			}
-			// возвращаем вершины, если найдено по 1 стоку и истоку
-			if (potentialSources.Count == 1 && potentialEffluents.Count == 1)
-			{
-				return (potentialSources[0], potentialEffluents[0], true);
+				// возвращаем вершины, если найдено по 1 стоку и истоку
+				if (potentialSources.Count == 1 && potentialEffluents.Count == 1)
+				{
+					return (potentialSources[0], potentialEffluents[0], true);
+				}
 			}
 
 			return (null, null, false);

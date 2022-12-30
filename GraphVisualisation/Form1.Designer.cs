@@ -26,6 +26,10 @@
 			this.алгоритыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.BFSBtn = new System.Windows.Forms.ToolStripMenuItem();
 			this.MaxFlowBTn = new System.Windows.Forms.ToolStripMenuItem();
+			this.ImpExpMenu = new System.Windows.Forms.MenuStrip();
+			this.ImpExBtn = new System.Windows.Forms.ToolStripMenuItem();
+			this.ImportBtn = new System.Windows.Forms.ToolStripMenuItem();
+			this.ExportBtn = new System.Windows.Forms.ToolStripMenuItem();
 			this.isWeighedCheckBox = new System.Windows.Forms.CheckBox();
 			this.isDirectedCheckBox = new System.Windows.Forms.CheckBox();
 			this.addNodeBtn = new System.Windows.Forms.Button();
@@ -33,15 +37,14 @@
 			this.deleteNodeBtn = new System.Windows.Forms.Button();
 			this.addEdgeBtn = new System.Windows.Forms.Button();
 			this.infoBox = new System.Windows.Forms.TextBox();
-			this.graphSpace.SuspendLayout();
 			this.AlgorithmsBtn.SuspendLayout();
+			this.ImpExpMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// graphSpace
 			// 
 			this.graphSpace.BackColor = System.Drawing.SystemColors.ControlLightLight;
 			this.graphSpace.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-			this.graphSpace.Controls.Add(this.AlgorithmsBtn);
 			this.graphSpace.Cursor = System.Windows.Forms.Cursors.Cross;
 			this.graphSpace.ImeMode = System.Windows.Forms.ImeMode.On;
 			this.graphSpace.Location = new System.Drawing.Point(-2, 82);
@@ -56,9 +59,10 @@
 			this.AlgorithmsBtn.Dock = System.Windows.Forms.DockStyle.None;
 			this.AlgorithmsBtn.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.алгоритыToolStripMenuItem});
-			this.AlgorithmsBtn.Location = new System.Drawing.Point(-6, -2);
+			this.AlgorithmsBtn.Location = new System.Drawing.Point(106, 60);
 			this.AlgorithmsBtn.Name = "AlgorithmsBtn";
-			this.AlgorithmsBtn.Size = new System.Drawing.Size(82, 24);
+			this.AlgorithmsBtn.Padding = new System.Windows.Forms.Padding(0);
+			this.AlgorithmsBtn.Size = new System.Drawing.Size(68, 24);
 			this.AlgorithmsBtn.Stretch = false;
 			this.AlgorithmsBtn.TabIndex = 8;
 			// 
@@ -68,7 +72,8 @@
             this.BFSBtn,
             this.MaxFlowBTn});
 			this.алгоритыToolStripMenuItem.Name = "алгоритыToolStripMenuItem";
-			this.алгоритыToolStripMenuItem.Size = new System.Drawing.Size(74, 20);
+			this.алгоритыToolStripMenuItem.Padding = new System.Windows.Forms.Padding(0);
+			this.алгоритыToolStripMenuItem.Size = new System.Drawing.Size(66, 24);
 			this.алгоритыToolStripMenuItem.Text = "Алгориты";
 			// 
 			// BFSBtn
@@ -84,6 +89,48 @@
 			this.MaxFlowBTn.Size = new System.Drawing.Size(196, 22);
 			this.MaxFlowBTn.Text = "Максимальный поток";
 			this.MaxFlowBTn.Click += new System.EventHandler(this.MaxFlowBtn_Cllck);
+			// 
+			// ImpExpMenu
+			// 
+			this.ImpExpMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.ImpExpMenu.Dock = System.Windows.Forms.DockStyle.None;
+			this.ImpExpMenu.GripMargin = new System.Windows.Forms.Padding(0);
+			this.ImpExpMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ImpExBtn});
+			this.ImpExpMenu.Location = new System.Drawing.Point(0, 60);
+			this.ImpExpMenu.Name = "ImpExpMenu";
+			this.ImpExpMenu.Padding = new System.Windows.Forms.Padding(0);
+			this.ImpExpMenu.Size = new System.Drawing.Size(106, 24);
+			this.ImpExpMenu.TabIndex = 8;
+			// 
+			// ImpExBtn
+			// 
+			this.ImpExBtn.BackColor = System.Drawing.SystemColors.Control;
+			this.ImpExBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+			this.ImpExBtn.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.ImpExBtn.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ImportBtn,
+            this.ExportBtn});
+			this.ImpExBtn.ImageTransparentColor = System.Drawing.SystemColors.AppWorkspace;
+			this.ImpExBtn.Name = "ImpExBtn";
+			this.ImpExBtn.Padding = new System.Windows.Forms.Padding(0);
+			this.ImpExBtn.Size = new System.Drawing.Size(104, 24);
+			this.ImpExBtn.Text = "Импорт/экспорт";
+			// 
+			// ImportBtn
+			// 
+			this.ImportBtn.BackColor = System.Drawing.SystemColors.Control;
+			this.ImportBtn.Name = "ImportBtn";
+			this.ImportBtn.Size = new System.Drawing.Size(193, 22);
+			this.ImportBtn.Text = "Импортировать граф";
+			this.ImportBtn.Click += new System.EventHandler(this.ImportBtn_Click);
+			// 
+			// ExportBtn
+			// 
+			this.ExportBtn.Name = "ExportBtn";
+			this.ExportBtn.Size = new System.Drawing.Size(193, 22);
+			this.ExportBtn.Text = "Экспортировать граф";
+			this.ExportBtn.Click += new System.EventHandler(this.ExportBtn_Click);
 			// 
 			// isWeighedCheckBox
 			// 
@@ -166,9 +213,9 @@
 			this.infoBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.infoBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.infoBox.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.infoBox.Location = new System.Drawing.Point(-2, 58);
+			this.infoBox.Location = new System.Drawing.Point(169, 62);
 			this.infoBox.Name = "infoBox";
-			this.infoBox.Size = new System.Drawing.Size(754, 18);
+			this.infoBox.Size = new System.Drawing.Size(583, 18);
 			this.infoBox.TabIndex = 7;
 			this.infoBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
 			// 
@@ -178,7 +225,9 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.AppWorkspace;
 			this.ClientSize = new System.Drawing.Size(749, 450);
+			this.Controls.Add(this.AlgorithmsBtn);
 			this.Controls.Add(this.infoBox);
+			this.Controls.Add(this.ImpExpMenu);
 			this.Controls.Add(this.addEdgeBtn);
 			this.Controls.Add(this.deleteNodeBtn);
 			this.Controls.Add(this.newGraphBtn);
@@ -192,10 +241,10 @@
 			this.Name = "GraphVisul";
 			this.Text = "GraphVisul";
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
-			this.graphSpace.ResumeLayout(false);
-			this.graphSpace.PerformLayout();
 			this.AlgorithmsBtn.ResumeLayout(false);
 			this.AlgorithmsBtn.PerformLayout();
+			this.ImpExpMenu.ResumeLayout(false);
+			this.ImpExpMenu.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -215,5 +264,9 @@
 		private ToolStripMenuItem алгоритыToolStripMenuItem;
 		private ToolStripMenuItem BFSBtn;
 		private ToolStripMenuItem MaxFlowBTn;
+		private MenuStrip ImpExpMenu;
+		private ToolStripMenuItem ImpExBtn;
+		private ToolStripMenuItem ImportBtn;
+		private ToolStripMenuItem ExportBtn;
 	}
 }

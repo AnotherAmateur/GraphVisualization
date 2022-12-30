@@ -1,9 +1,13 @@
+using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Forms;
+using System.Windows.Forms.Design;
 using System.Xml.Linq;
 using GraphVisualisation.Algorithms;
 
@@ -78,15 +82,7 @@ namespace GraphVisualisation
 					graphSpace.Controls.Add(newNode);
 					newNode.MouseDown += new MouseEventHandler(onNodeBtn_MouseDown);
 					newNode.MouseMove += new MouseEventHandler(node_MouseMove);
-					newNode.Click += new EventHandler(node_MouseClick);
-
-					if (isNewGraph)
-					{
-						graph = new(isDirected);
-						graph.IsWeighed = isWeighed;
-
-						isNewGraph = false;
-					}
+					newNode.Click += new EventHandler(node_MouseClick);					
 
 					graph.AddNode(newNode.Name);
 					nodes.Add(newNode);
@@ -112,7 +108,7 @@ namespace GraphVisualisation
 			// редактирование ребер/дуг
 			else if (addEdgeSelected)
 			{
-				if (edgeToAddFirst == null)
+				if (edgeToAddFirst is null)
 				{
 					edgeToAddFirst = ((Button)sender).Name;
 					InfoBox = "Теперь укажите вторую вершину";
@@ -221,6 +217,14 @@ namespace GraphVisualisation
 
 			edgeToAddFirst = null;
 			InfoBox = null;
+
+			if (isNewGraph)
+			{
+				graph = new(isDirected);
+				graph.IsWeighed = isWeighed;
+
+				isNewGraph = false;
+			}
 		}
 
 
@@ -374,7 +378,7 @@ namespace GraphVisualisation
 
 
 		// Установка активной функции
-		private void AdjustPanel(Button button)
+		private void AdjustPanel(Button? button)
 		{
 			graphSpace.Refresh();
 
@@ -421,9 +425,117 @@ namespace GraphVisualisation
 			MaxFlow.nodeSize = nodeSize;
 
 			int result = MaxFlow.MaxFlowStart(delay);
-			InfoBox = (graph == null || graph.Count() < 2 || result == -1) ? InfoBox = "Структура графа непригодна для этого алгоритма" : $"Максимальный поток = {result}";
+			InfoBox = (result == -1) ? InfoBox = "Структура графа непригодна для этого алгоритма" : $"Максимальный поток = {result}";
 
 			DrawEdges = true;
+		}
+
+
+		// Иморт графа из файла на диске
+		private void ImportBtn_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog openFileDialog = new OpenFileDialog();
+			openFileDialog.Filter = "(*.graph) | *.graph";
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				FileInfo fileName = new FileInfo(openFileDialog.FileName);
+				using (StreamReader sr = new StreamReader(fileName.FullName))
+				{
+					newGraphBtn_Click(null, null);
+
+					isDirected = sr.ReadLine() == true.ToString() ? true : false;
+					isWeighed = sr.ReadLine() == true.ToString() ? true : false;
+					
+					isWeighedCheckBox.Checked = isWeighed;
+					isDirectedCheckBox.Checked = isDirected;
+					addNodeBtn_Click(addNodeBtn, null);
+
+					int n = int.Parse(sr.ReadLine());
+
+					// добавление вершин
+					for (int i = 1; i <= n; i++)
+					{
+						graph.AddNode(i.ToString());
+					}
+
+					// добавление ребер
+					for (int i = 0; i < n; i++)
+					{
+						int[] point = sr.ReadLine().Split(' ').Select(x => int.Parse(x)).ToArray();
+						graphSpace_MouseClick(null, new MouseEventArgs(MouseButtons.Left, 0, point[0], point[1], 0));
+						string[] adjacencyList = sr.ReadLine().Split('/');
+
+						if (isWeighed)
+						{
+							for (int j = 1; j < adjacencyList.Length; j++)
+							{
+								string[] tmp = adjacencyList[j].Split(' ');
+								graph.AddOrUpdateEdge(adjacencyList[0], tmp[0], int.Parse(tmp[1]));
+							}
+						}
+						else
+						{
+							for (int j = 1; j < adjacencyList.Length; j++)
+							{
+								graph.AddOrUpdateEdge(adjacencyList[0], adjacencyList[j], 0);
+							}
+						}
+					}
+				}
+
+				Refresh();
+			}
+		}
+
+
+		// Экспорт графа на диск
+		private void ExportBtn_Click(object sender, EventArgs e)
+		{
+			if (graph is null || graph.Count() == 0)
+			{
+				InfoBox = "Нельзя сохранить граф";
+				return;
+			}
+
+			SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+			saveFileDialog.Filter = "(*.graph) | *.graph";
+			saveFileDialog.RestoreDirectory = true;
+
+			if (saveFileDialog.ShowDialog() == DialogResult.OK)
+			{
+				string fileName = saveFileDialog.FileName;
+				using (StreamWriter sw = new StreamWriter(fileName))
+				{
+					sw.WriteLine(isDirected);
+					sw.WriteLine(isWeighed);
+					sw.WriteLine(graph.Count());
+
+					foreach (var v in graph)
+					{
+						Button node = nodes.Find(x => x.Name == v.Key);
+						sw.WriteLine($"{node.Location.X} {node.Location.Y}");
+						sw.Write(v.Key);
+
+						if (isWeighed)
+						{
+							foreach (var item in v.Value)
+							{
+								sw.Write($"/{item.Key} {item.Value}");
+							}
+						}
+						else
+						{
+							foreach (var item in v.Value)
+							{
+								sw.Write($"/{item.Key}");
+							}
+						}
+
+						sw.WriteLine();
+					}
+				}
+			}
 		}
 	}
 }
