@@ -92,7 +92,6 @@
 			// 
 			// ImpExpMenu
 			// 
-			this.ImpExpMenu.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.ImpExpMenu.Dock = System.Windows.Forms.DockStyle.None;
 			this.ImpExpMenu.GripMargin = new System.Windows.Forms.Padding(0);
 			this.ImpExpMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -100,7 +99,7 @@
 			this.ImpExpMenu.Location = new System.Drawing.Point(0, 60);
 			this.ImpExpMenu.Name = "ImpExpMenu";
 			this.ImpExpMenu.Padding = new System.Windows.Forms.Padding(0);
-			this.ImpExpMenu.Size = new System.Drawing.Size(106, 24);
+			this.ImpExpMenu.Size = new System.Drawing.Size(226, 24);
 			this.ImpExpMenu.TabIndex = 8;
 			// 
 			// ImpExBtn

@@ -134,10 +134,11 @@ namespace GraphVisualisation
 					edgeEditBoxForm.Location = new Point(this.Location.X + (int)(this.Width / 2 - edgeEditBoxForm.Width / 2), this.Location.Y + (int)(this.Height / 2 - edgeEditBoxForm.Height / 2));
 					edgeEditBoxForm.ShowDialog();
 
-					weight = edgeEditBoxForm.Weight;
+					
 
 					if (edgeEditBoxForm.EdgeAdded)
 					{
+						weight = edgeEditBoxForm.Weight;
 						graph.AddOrUpdateEdge(edgeToAddFirst, edgeToAddSecond, weight);
 					}
 					else
